@@ -3,12 +3,18 @@
 #include "XMLEventGenerator.h"
 #include "XMLDoc.h"
 #include "States.h"
+#include "ParseLineException.h"
 
 
 int main(int argc, char* argv[]) {
     XMLDoc xmlDoc(argv[1]);
     XMLEventGenerator<BaseState> xml;
-    xml.handle(xmlDoc);
+
+    try{
+        xml.handle(xmlDoc);
+    } catch (ParseLineException& e){
+        e.print();
+    }
 
     return 0;
 }

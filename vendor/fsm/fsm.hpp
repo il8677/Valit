@@ -494,7 +494,7 @@ namespace ctfsm
                 requires(std::is_same_v<target_state, void>)
             {
 #ifdef __EXCEPTIONS
-                throw std::runtime_error("Unhandled transation");
+                throw std::runtime_error("Unexpected node");
 #else
                 return false;
 #endif

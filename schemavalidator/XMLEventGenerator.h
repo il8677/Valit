@@ -15,11 +15,27 @@ public:
         handleNode(currentNode, doc);
 
         // Main loop
+        while(!doc.isEmpty()){
+            if(doc.nextIsAttribute()){
+                auto [k, v] = doc.getCurrentAttribute();
+                fsm(Attribute(k, v));
+                doc.advanceAttribute();
+            }else if(doc.nextIsChildNode()){
+                doc.nodeDown();
+                std::string currentNode = doc.getCurrentNode();
+                handleNode(currentNode, doc);
+            }else if(doc.nextIsSibling()){
+                throw std::runtime_error("Not implemented");
+            }else{
+                throw std::runtime_error("Invalid doc state");
+            }
+        }
     }
 
 private:
     void enterEvent(const std::string& str){
         if(str == "ClinicalDocument") fsm(ClinicalDocumentEnterEvent());
+        else if(str == "realmCode") fsm(RealmCodeEnterEvent());
         else fsm(ErrorEvent());
     }
 
@@ -27,8 +43,7 @@ private:
         try{
             enterEvent(nodeName);
         }catch(std::runtime_error& err){
-            std::cout << err.what() << std::endl;
-            std::cout << "Error: Unexpected node " << nodeName << "\n";
+            std::cout << nodeName << ": " << err.what() << std::endl;
             doc.errorOut();
         }
     }

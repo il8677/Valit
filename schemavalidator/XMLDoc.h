@@ -13,7 +13,7 @@ public:
     bool nextIsSibling();
     bool isEmpty();
 
-    std::pair<std::string, std::string> nextNodeName() const;
+    std::pair<std::string, std::string> getCurrentAttribute() const;
     std::string getCurrentNode() const;
     
     void advanceAttribute();

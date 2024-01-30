@@ -63,10 +63,10 @@ bool XMLDoc::nextIsSibling(){
 }
 
 bool XMLDoc::isEmpty(){
-    return nodes.size();
+    return !nodes.size();
 }
 
-std::pair<std::string, std::string> XMLDoc::nextNodeName() const {
+std::pair<std::string, std::string> XMLDoc::getCurrentAttribute() const {
     std::string key(currentAttribute->name());
     std::string value(currentAttribute->value());
 
@@ -83,6 +83,7 @@ void XMLDoc::advanceAttribute(){
 
 void XMLDoc::nodeDown(){
     nodes.push(current()->first_node());
+    currentAttribute = current()->first_attribute();
 }
 
 void XMLDoc::nodeNext(){
